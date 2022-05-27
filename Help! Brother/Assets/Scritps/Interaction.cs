@@ -1,11 +1,14 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Interaction : MonoBehaviour
 {
-    //          https://opengameart.org/users/luckius
+    //          Sound Effect By https://opengameart.org/users/luckius
     //          Sound Effect By Nicole Marie T
+    //          Music By    https://opengameart.org/users/emmama
 
     [SerializeField] private InteractionType _typeOfInteraction;
     [SerializeField] private float range = 4f;
@@ -22,7 +25,15 @@ public class Interaction : MonoBehaviour
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position, range);
+        if(_typeOfInteraction == InteractionType.sound)
+            Gizmos.DrawWireSphere(transform.position, range);
+        else
+        {
+            foreach (Light lightSource in _lightSources)
+            {
+                Gizmos.DrawWireSphere(lightSource.transform.position, range);
+            }
+        }
     }
 #endif
 
@@ -36,9 +47,17 @@ public class Interaction : MonoBehaviour
             MakeLight();
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<GhostController>())
+            Interacted();
+    }
+
     private void MakeLight()
     {
+        PlayRandomSound();
         var lights = _lightSources.OrderBy(t => Vector3.Distance(_brother.transform.position, t.transform.position));
+        bool firstLightDetected = false;
         foreach (var light in lights)
         {
             var playerdirection = (_brother.transform.position - light.transform.position).normalized;
@@ -47,14 +66,14 @@ public class Interaction : MonoBehaviour
             if (light.enabled)
             {
                 var ray = new Ray(light.transform.position, playerdirection);
-                Debug.DrawRay(light.transform.position, playerdirection, Color.red, 5f);
+                Debug.DrawRay(light.transform.position, playerdirection, Color.red, 20f);
                 if (Physics.Raycast(ray, out var hitInfo, 20f))
                 {
                     var player = hitInfo.collider.GetComponent<GuidedBrother>();
-                    if (player != null)
+                    if (player != null && firstLightDetected == false && Vector3.Dot(playerdirection,player.GetDirection()) < -0.7)
                     {
+                        firstLightDetected = true;
                         SetPlayerNavMeshTarget(light.transform.position);
-                        break;
                     }
                 }
             }

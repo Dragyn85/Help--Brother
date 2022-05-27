@@ -42,10 +42,8 @@ public class WalkRandomly : MonoBehaviour
             randomPos += _brother.BasePos;
             
             NavMeshHit navMeshHit;
-            do
-            {
-                NavMesh.SamplePosition(randomPos, out navMeshHit, _wanderRadius, -1);    
-            } while (!navMeshHit.hit);
+            NavMesh.SamplePosition(randomPos, out navMeshHit, _wanderRadius, -1);    
+            
             
             _brother.SetDestionation(navMeshHit.position, false);
             _timer = 0;
