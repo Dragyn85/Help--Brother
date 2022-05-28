@@ -17,6 +17,6 @@ public class FadeText : MonoBehaviour
     }
     public void FadeOut()
     {
-        _animator.SetTrigger("fadeOuy");
+        _animator.SetTrigger("fadeOut");
     }
 }

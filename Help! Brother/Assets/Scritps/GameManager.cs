@@ -10,11 +10,23 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        SceneManager.sceneLoaded += HandleNewScene;
         if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(this);
         }
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= HandleNewScene;
+    }
+
+    private void HandleNewScene(Scene scene, LoadSceneMode arg1)
+    {
+        if(scene.name != "Intro" && scene.name != "MainMenu")
+        PlayerPrefs.SetString("CurrentLevel",scene.buildIndex.ToString());
     }
 
     public void ReachedGoal(int nextLevelIndex)
