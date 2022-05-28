@@ -13,7 +13,7 @@ public class PauseMenu : MonoBehaviour
         _canvasGroup.blocksRaycasts = _isActive;
     }
 
-    private void OnEnable()
+    private void Start()
     {
         GameManager.Instance.PausePressed += Toggle;
     }
@@ -29,5 +29,10 @@ public class PauseMenu : MonoBehaviour
         _canvasGroup.alpha = _isActive ? 1 : 0;
         _canvasGroup.interactable = _isActive;
         _canvasGroup.blocksRaycasts = _isActive;
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 }
