@@ -13,6 +13,7 @@ public class Interaction : MonoBehaviour
     [SerializeField] private InteractionType _typeOfInteraction;
     [SerializeField] private float range = 4f;
     [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private Animator _animator;
 
 
     [Tooltip("only needed for light interaction type")] [SerializeField]
@@ -20,6 +21,7 @@ public class Interaction : MonoBehaviour
 
     [SerializeField] private List<AudioClip> _clips;
     [SerializeField] private GuidedBrother _brother;
+    private int interactID = Animator.StringToHash("interact");
 
 
 #if UNITY_EDITOR
@@ -35,12 +37,19 @@ public class Interaction : MonoBehaviour
             }
         }
     }
+
+    private void OnValidate()
+    {
+        _lightSources = GetComponentsInChildren<Light>().ToList();
+    }
 #endif
 
 
     [ContextMenu("Simulate Interaction")]
     public void Interacted()
     {
+        if (_animator != null)
+            _animator.SetTrigger(interactID);
         if (_typeOfInteraction == InteractionType.sound)
             MakeSound();
         else if (_typeOfInteraction == InteractionType.light)
@@ -70,7 +79,7 @@ public class Interaction : MonoBehaviour
                 if (Physics.Raycast(ray, out var hitInfo, 20f))
                 {
                     var player = hitInfo.collider.GetComponent<GuidedBrother>();
-                    if (player != null && firstLightDetected == false && Vector3.Dot(playerdirection,player.GetDirection()) < -0.7)
+                    if (player != null && firstLightDetected == false && Vector3.Dot(playerdirection,player.GetDirection()) < -0.5)
                     {
                         firstLightDetected = true;
                         SetPlayerNavMeshTarget(light.transform.position);

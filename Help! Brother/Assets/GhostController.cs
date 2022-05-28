@@ -15,6 +15,10 @@ public class GhostController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.Instance.IsInputStoped)
+        {
+            return;
+        }
         var horizontal = Input.GetAxis("Horizontal") *Time.deltaTime * _speed;
         var vertical = Input.GetAxis("Vertical") *Time.deltaTime * _speed;
         var direction = new Vector3(horizontal, 0, vertical);
