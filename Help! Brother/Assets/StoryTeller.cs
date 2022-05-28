@@ -17,7 +17,7 @@ public class StoryTeller : MonoBehaviour, IPointerClickHandler
     
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (_currentIndex < storys.Count)
+        if (_currentIndex < storys.Count-1)
         {
             storys[_currentIndex].FadeOut();
             _currentIndex++;

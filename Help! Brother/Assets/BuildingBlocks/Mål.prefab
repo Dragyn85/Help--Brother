@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1932335867030452724}
   - component: {fileID: 1932335867030452725}
   m_Layer: 0
-  m_Name: GOAL
+  m_Name: "M\xE5l"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

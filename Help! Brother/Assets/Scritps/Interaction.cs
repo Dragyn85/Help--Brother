@@ -41,6 +41,7 @@ public class Interaction : MonoBehaviour
     private void OnValidate()
     {
         _lightSources = GetComponentsInChildren<Light>().ToList();
+        _brother = FindObjectOfType<GuidedBrother>();
     }
 #endif
 

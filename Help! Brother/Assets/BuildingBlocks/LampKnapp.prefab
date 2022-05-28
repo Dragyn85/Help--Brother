@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7133564611471567944}
   - component: {fileID: 7133564611471567949}
   m_Layer: 0
-  m_Name: LightSwitch
+  m_Name: LampKnapp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
