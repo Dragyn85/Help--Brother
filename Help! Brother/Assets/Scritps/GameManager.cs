@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public bool IsInputStoped;
+    public event Action PausePressed;
 
     private void Awake()
     {
@@ -16,6 +17,12 @@ public class GameManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(this);
         }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            PausePressed?.Invoke();
     }
 
     private void OnDestroy()
