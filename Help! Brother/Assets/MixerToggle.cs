@@ -17,6 +17,11 @@ public class MixerToggle : MonoBehaviour
             _toggle.isOn = volume == 1;
             _mixer.SetFloat(_soundParameterName, _toggle.isOn?-80f:00f);
         }
+        else
+        {
+            _toggle.isOn = false;
+            _toggle.onValueChanged.Invoke(_toggle.isOn);
+        }
     }
 
     public void ToggleChange(bool isOn)

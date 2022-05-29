@@ -11,9 +11,10 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        SceneManager.sceneLoaded += HandleNewScene;
+        
         if (Instance == null)
         {
+            SceneManager.sceneLoaded += HandleNewScene;
             Instance = this;
             DontDestroyOnLoad(this);
         }
@@ -33,12 +34,17 @@ public class GameManager : MonoBehaviour
     private void HandleNewScene(Scene scene, LoadSceneMode arg1)
     {
         if(scene.name != "Intro" && scene.name != "MainMenu")
-        PlayerPrefs.SetString("CurrentLevel",scene.buildIndex.ToString());
+            PlayerPrefs.SetString("CurrentLevel",scene.buildIndex.ToString());
     }
 
     public void ReachedGoal(int nextLevelIndex)
     {
-        StartCoroutine(LoadLevelAfterSeconds(2f,nextLevelIndex));
+        if(SceneManager.sceneCountInBuildSettings-2 > nextLevelIndex)
+            StartCoroutine(LoadLevelAfterSeconds(2f,nextLevelIndex));
+        else
+        {
+            StartCoroutine(LoadLevelAfterSeconds(2f,"End"));
+        }
       
     }
 
@@ -48,5 +54,12 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(time);
         IsInputStoped = false;
         SceneManager.LoadScene(nextlevel);
+    }
+    private IEnumerator LoadLevelAfterSeconds(float time, string levelName)
+    {
+        IsInputStoped = true;
+        yield return new WaitForSeconds(time);
+        IsInputStoped = false;
+        SceneManager.LoadScene(levelName);
     }
 }
