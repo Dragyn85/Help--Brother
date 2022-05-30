@@ -13,6 +13,8 @@ public class StoryTeller : MonoBehaviour, IPointerClickHandler
     private float _time;
     [SerializeField] private float _storytime = 2f;
 
+    [SerializeField] int nextLevel;
+
     private void Awake()
     {
         storys[_currentIndex].FadeIn();
@@ -27,17 +29,17 @@ public class StoryTeller : MonoBehaviour, IPointerClickHandler
         if (_time > _storytime)
         {
             _time = 0;
-            ContinueStory(0);
+            ContinueStory();
         }
             
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        ContinueStory(1);
+        ContinueStory();
     }
 
-    private void ContinueStory(int nextLevel)
+    private void ContinueStory()
     {
         if (_currentIndex < storys.Count - 1)
         {

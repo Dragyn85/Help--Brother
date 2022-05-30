@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -22,6 +21,7 @@ public class Interaction : MonoBehaviour
     [SerializeField] private List<AudioClip> _clips;
     [SerializeField] private GuidedBrother _brother;
     private int interactID = Animator.StringToHash("interact");
+    [SerializeField] private List<MovableObject> _movables;
 
 
 #if UNITY_EDITOR
@@ -55,6 +55,16 @@ public class Interaction : MonoBehaviour
             MakeSound();
         else if (_typeOfInteraction == InteractionType.light)
             MakeLight();
+        else if (_typeOfInteraction == InteractionType.move)
+            Move();
+    }
+
+    private void Move()
+    {
+        foreach (MovableObject movable in _movables)
+        {
+            movable.Move();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -118,6 +128,7 @@ public class Interaction : MonoBehaviour
     private enum InteractionType
     {
         sound,
-        light
+        light,
+        move
     }
 }

@@ -21,6 +21,8 @@ public class GhostController : MonoBehaviour
         }
         var horizontal = Input.GetAxis("Horizontal") *Time.deltaTime * _speed;
         var vertical = Input.GetAxis("Vertical") *Time.deltaTime * _speed;
+        Debug.Log(vertical + "vertical");
+        Debug.Log(horizontal + "horizontal");
         var direction = new Vector3(horizontal, 0, vertical);
         var magnitude = direction.magnitude;
         if (magnitude <= 0.0005f)
